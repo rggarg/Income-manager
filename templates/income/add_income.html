@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    {% include 'partials/messages.html' %}
+    <nav aria-label="breadcrumb" style="background-color: rgba(194, 193, 193, 0.207);">
+        <ol class="breadcrumb p-2 ps-4">
+            <li class="breadcrumb-item"><a href="{% url 'income' %}">Income</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Income</li>
+        </ol>
+    </nav>
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h3>Add Income</h3>
+            </div>
+            <form action="{% url 'add-income' %}" method="post" class="p-1">
+                {% csrf_token %}
+                <div class="form-group p-1">
+                    <label for="">Amount</label>
+                    <input type="number" name='amount' value="{{values.amount}}" class="form-control-sm form-control">
+                </div>
+                <div class="form-group p-1">
+                    <label for="">Description</label>
+                    <input type="text" name='description' value="{{values.description}}"
+                        class="form-control form-control-sm">
+                </div>
+                <div class="form-group p-1">
+                    <label for="">Source</label>
+                    <input list="sources" name="source" id="source" class="form-control form-control-sm">
+                    <datalist id="sources">
+                        {% for source in sources %}
+                        <option value="{{source.name}}">{{source.name}}</option>
+                        {% endfor %}
+                    </datalist>
+                    <div class="form-group p-1">
+                        <label for="">Date of Income</label>
+                        <input type="date" name='income_date' class="form-control form-control-sm">
+                    </div>
+                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

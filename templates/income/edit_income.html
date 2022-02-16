@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb" style="background-color: rgba(194, 193, 193, 0.207);">
+                <ol class="breadcrumb p-2 ps-4">
+                    <li class="breadcrumb-item"><a href="{% url 'income' %}">Income</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Income</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'income-delete' income.id %}" class="btn btn-sm btn-outline-danger"> Delete</a>
+        </div>
+    </div>
+    {% include 'partials/messages.html' %}
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h3>Edit Income</h3>
+            </div>
+            <form action="{% url 'income-edit' income.id %}" method="post" class="p-1">
+                {% csrf_token %}
+                <div class="form-group p-1">
+                    <label for="">Amount</label>
+                    <input type="number" name='amount' value="{{values.amount}}" class="form-control-sm form-control">
+                </div>
+                <div class="form-group p-1">
+                    <label for="">Description</label>
+                    <input type="text" name='description' value="{{values.description}}"
+                        class="form-control form-control-sm">
+                </div>
+                <div class="form-group p-1">
+                    <label for="">Source</label>
+                    <select name="source" id="" class="form-control form-control-sm">
+                        <option name='source' value="{{values.source}}">{{values.source}}</option>
+                        {% for source in sources %}
+                        <option name='source' value="{{source.name}}">{{source.name}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div class="form-group p-1">
+                    <label for="">Date of Income</label>
+                    <input type="date" name='income_date' value="{{values.date |date:'Y-m-d'}}"
+                        class="form-control form-control-sm">
+                </div>
+                <input type="submit" value="Update" class="btn btn-primary mt-2">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
